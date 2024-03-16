@@ -27,7 +27,7 @@ public class PlayerWeapon : MonoBehaviour
         if(currentMagSize != 0)
         {
             currentMagSize--;
-            GameObject pro = Instantiate(bullet,bulletSpawner.transform.position, GameObject.Find("Player").transform.rotation);
+            GameObject pro = Instantiate(bullet,bulletSpawner.transform.position, gameObject.transform.rotation);
             pro.GetComponent<Projectile>().setDamage(damage);
         }
         else
