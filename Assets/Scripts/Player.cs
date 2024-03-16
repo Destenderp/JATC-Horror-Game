@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    //UR MOM
     [SerializeField]InputAction c_playerMove;
     [SerializeField]InputAction c_mousePosition;
     [SerializeField]InputAction c_shoot;
