@@ -9,6 +9,7 @@ public class PlayerWeapon : MonoBehaviour
     private int currentMagSize;
     [SerializeField]float reloadTime;
     [SerializeField]GameObject bullet, bulletSpawner;
+
     public int getMaxMagSize()
     {
         return maxMagSize;

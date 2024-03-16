@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
@@ -5,12 +6,13 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Processors;
 
 public class Player : MonoBehaviour
 {
     //UR MOM
     [SerializeField]InputAction c_playerMove;
-    [SerializeField]InputAction c_mousePosition;
+    public InputAction c_mousePosition;
     [SerializeField]InputAction c_shoot;
     [SerializeField]InputAction c_reload;
     [SerializeField]InputAction c_interact;
@@ -51,16 +53,14 @@ public class Player : MonoBehaviour
     }
     void playerMovement()
     {
-        Vector2 player, mouse;
-        float angle;//, playerX, playerY;
-        //playerX  = c_playerMove.ReadValue<Vector2>().x*Time.deltaTime*speed;
-        //playerY = c_playerMove.ReadValue<Vector2>().y*Time.deltaTime*speed;
+        Vector2 player, mouse, gun;
+        float angle;
         player = gameObject.transform.position;
         mouse = (Vector2)Camera.main.ScreenToWorldPoint(c_mousePosition.ReadValue<Vector2>());
         angle = Mathf.Atan2(player.y - mouse.y, player.x-mouse.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(new Vector3(0,0,angle+90));
+        gun = s_playerWeapon.transform.position;
 
-        //transform.position = transform.position + new Vector3(playerX, playerY, 0);
         rb.MovePosition(rb.position += c_playerMove.ReadValue<Vector2>()*Time.deltaTime*5);
     }
     void shoot(InputAction.CallbackContext ctx)
