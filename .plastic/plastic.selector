@@ -1,0 +1,4 @@
+repository "JATC Horror Game@Destenderp@cloud"
+  path "/"
+    br "/main"
+    co "/main"
