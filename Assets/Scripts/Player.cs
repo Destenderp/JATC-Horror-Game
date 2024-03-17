@@ -10,7 +10,6 @@ using UnityEngine.InputSystem.Processors;
 
 public class Player : MonoBehaviour
 {
-    //UR MOM
     [SerializeField]InputAction c_playerMove;
     public InputAction c_mousePosition;
     [SerializeField]InputAction c_shoot;
@@ -19,6 +18,7 @@ public class Player : MonoBehaviour
     
     [SerializeField]float speed;
     [SerializeField]int ammoCount;
+    private float distance;
 
     private PlayerWeapon s_playerWeapon;
     [SerializeField]UIHandler s_UIHandler;
@@ -53,13 +53,13 @@ public class Player : MonoBehaviour
     }
     void playerMovement()
     {
-        Vector2 player, mouse, gun;
+        Vector2 player, mouse;
         float angle;
         player = gameObject.transform.position;
         mouse = (Vector2)Camera.main.ScreenToWorldPoint(c_mousePosition.ReadValue<Vector2>());
         angle = Mathf.Atan2(player.y - mouse.y, player.x-mouse.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(new Vector3(0,0,angle+90));
-        gun = s_playerWeapon.transform.position;
+        distance = MathF.Sqrt(MathF.Pow(player.x-mouse.x,2)+MathF.Pow(player.y-mouse.y,2));
 
         rb.MovePosition(rb.position += c_playerMove.ReadValue<Vector2>()*Time.deltaTime*5);
     }
@@ -100,5 +100,9 @@ public class Player : MonoBehaviour
             s_UIHandler.setInteractText(true, hit.transform.gameObject.name);
         else
             s_UIHandler.setInteractText(false);
+    }
+    public float getDistance()
+    {
+        return distance;
     }
 }
