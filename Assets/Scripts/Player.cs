@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
 
     [SerializeField]GameObject interactable;
+    //[SerializeField]GameObject cam;
 
     LayerMask mask;
     // Start is called before the first frame update
@@ -62,6 +63,8 @@ public class Player : MonoBehaviour
         distance = MathF.Sqrt(MathF.Pow(player.x-mouse.x,2)+MathF.Pow(player.y-mouse.y,2));
 
         rb.MovePosition(rb.position += c_playerMove.ReadValue<Vector2>()*Time.deltaTime*5);
+
+        //cam.transform.position = new Vector3(player.x, player.y, -10);
     }
     void shoot(InputAction.CallbackContext ctx)
     {
