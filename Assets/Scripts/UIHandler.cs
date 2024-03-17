@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 public class UIHandler : MonoBehaviour
 {
     [SerializeField]TextMeshProUGUI interactText;
+    [SerializeField]TextMeshProUGUI ammoCounter;
 
     public void setInteractText(bool isActive, String interactName)
     {
@@ -18,5 +19,9 @@ public class UIHandler : MonoBehaviour
     public void setInteractText(bool isActive)
     {
         interactText.gameObject.SetActive(isActive);
+    }
+    public void updateBullets(int ammoInGun, int ammoOnPlayer)
+    {
+        ammoCounter.text = ammoInGun + " / " + ammoOnPlayer;
     }
 }

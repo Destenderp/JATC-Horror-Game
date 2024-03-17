@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
 
         rb = gameObject.GetComponent<Rigidbody2D>();
         s_playerWeapon = gameObject.GetComponentInChildren<PlayerWeapon>();
+        s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
     }
     // Update is called once per frame
     void Update()
@@ -69,6 +70,7 @@ public class Player : MonoBehaviour
     void shoot(InputAction.CallbackContext ctx)
     {
         s_playerWeapon.shoot();
+        s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
     }
     void reload(InputAction.CallbackContext ctx)
     {
@@ -85,6 +87,7 @@ public class Player : MonoBehaviour
         Debug.Log(need);
         s_playerWeapon.reload(need);
         ammoCount -= need;
+        s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
     }
     void interact(InputAction.CallbackContext ctx)
     {
@@ -95,12 +98,13 @@ public class Player : MonoBehaviour
             ammoCount += temp.getBulletCount();
             temp.useInteractable();
         }
+        s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
     }
     void updateUI()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 2,  mask);
         if(hit == true)
-            s_UIHandler.setInteractText(true, hit.transform.gameObject.name);
+            s_UIHandler.setInteractText(true, hit.transform.gameObject.tag);
         else
             s_UIHandler.setInteractText(false);
     }
