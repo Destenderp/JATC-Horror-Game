@@ -10,14 +10,18 @@ using UnityEngine.InputSystem.Processors;
 
 public class Player : MonoBehaviour
 {
+    IEnumerator fb;
+
     [SerializeField]InputAction c_playerMove;
     public InputAction c_mousePosition;
     [SerializeField]InputAction c_shoot;
     [SerializeField]InputAction c_reload;
     [SerializeField]InputAction c_interact;
+    [SerializeField]InputAction c_flashLight;
     
     [SerializeField]float speed;
     [SerializeField]int ammoCount;
+    [SerializeField]int battery;
     private float distance;
 
     private PlayerWeapon s_playerWeapon;
@@ -25,9 +29,12 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
 
     [SerializeField]GameObject interactable;
+    [SerializeField]GameObject flashLight;
     //[SerializeField]GameObject cam;
 
     LayerMask mask;
+
+    bool batteryUpdate = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,22 +43,28 @@ public class Player : MonoBehaviour
         c_shoot.Enable();
         c_reload.Enable();
         c_interact.Enable();
+        c_flashLight.Enable();
 
         c_shoot.performed += shoot;
         c_reload.performed += reload;
         c_interact.performed += interact;
+        c_flashLight.performed += toggleFlashlight;
 
         mask = LayerMask.GetMask("Interactable");
+
+        fb = flashBattery();
 
         rb = gameObject.GetComponent<Rigidbody2D>();
         s_playerWeapon = gameObject.GetComponentInChildren<PlayerWeapon>();
         s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
+        updateFlashlight(checkFlashBattery());
     }
     // Update is called once per frame
     void Update()
     {
         playerMovement();
         updateUI();
+        updateFlashBattery();
     }
     void playerMovement()
     {
@@ -67,6 +80,52 @@ public class Player : MonoBehaviour
 
         //cam.transform.position = new Vector3(player.x, player.y, -10);
     }
+    void toggleFlashlight(InputAction.CallbackContext ctx)
+    {
+        if(flashLight.activeSelf == true)
+        {
+            updateFlashlight(false);
+            batteryUpdate = false;
+            StopCoroutine("flashBattery");
+        }
+        else if(flashLight.activeSelf == false && checkFlashBattery())
+        {
+            updateFlashlight(true);
+        }
+    }
+    void updateFlashlight(bool state)
+    {
+        flashLight.SetActive(state);
+    }
+    bool checkFlashBattery()
+    {
+        if(battery <= 0)
+            return false;
+        else
+            return true;
+    }
+    void updateFlashBattery()
+    {
+        Debug.Log(batteryUpdate);
+        if(batteryUpdate == false && flashLight.activeSelf == true)
+        {
+            //Debug.LogWarning("Killing Battery");
+            StartCoroutine("flashBattery");
+        }
+        if(!checkFlashBattery())
+            updateFlashlight(false);
+        s_UIHandler.updateBattery(battery);
+    }
+    IEnumerator flashBattery()
+    {
+        //Debug.LogError("Killing Battery");
+        batteryUpdate = true;
+        yield return new WaitForSeconds(3);
+        battery--;
+        batteryUpdate = false;
+    }
+
+
     void shoot(InputAction.CallbackContext ctx)
     {
         s_playerWeapon.shoot();
@@ -96,15 +155,18 @@ public class Player : MonoBehaviour
         {
             Intractable temp = hit.transform.gameObject.GetComponent<Intractable>();
             ammoCount += temp.getBulletCount();
+            battery += temp.getBatteryCount();
+            battery = Mathf.Clamp(battery, 0, 100);
             temp.useInteractable();
         }
         s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
+        s_UIHandler.updateBattery(battery);
     }
     void updateUI()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 2,  mask);
         if(hit == true)
-            s_UIHandler.setInteractText(true, hit.transform.gameObject.tag);
+            s_UIHandler.setInteractText(true, hit.transform.gameObject);
         else
             s_UIHandler.setInteractText(false);
     }
