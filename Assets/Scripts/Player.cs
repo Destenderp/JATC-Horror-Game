@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     [SerializeField]GameObject flashLight;
     //[SerializeField]GameObject cam;
 
-    LayerMask mask;
+    LayerMask interactMask;
 
     bool batteryUpdate = false;
     // Start is called before the first frame update
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
         c_interact.performed += interact;
         c_flashLight.performed += toggleFlashlight;
 
-        mask = LayerMask.GetMask("Interactable");
+        interactMask = LayerMask.GetMask("Interactable");
 
         fb = flashBattery();
 
@@ -150,7 +150,7 @@ public class Player : MonoBehaviour
     }
     void interact(InputAction.CallbackContext ctx)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 2,  mask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 2,  interactMask);
         if(hit == true)
         {
             Intractable temp = hit.transform.gameObject.GetComponent<Intractable>();
@@ -164,7 +164,7 @@ public class Player : MonoBehaviour
     }
     void updateUI()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 2,  mask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 2,  interactMask);
         if(hit == true)
             s_UIHandler.setInteractText(true, hit.transform.gameObject);
         else
