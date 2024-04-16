@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Intractable : MonoBehaviour
 {
@@ -11,14 +12,18 @@ public class Intractable : MonoBehaviour
     int random, teirOfStuff;
     void Awake()
     {
+        Debug.Log(gameObject.name);
         random = UnityEngine.Random.Range(0,100);
         Debug.Log(random);
         teirOfStuff = UnityEngine.Random.Range(0,100);
         if(random == 0 || random < 20)
+        {
+            Debug.Log("I am setting empty");
             return;
-        else if(random >= 20 || random < 60)
+        }
+        else if(random >= 20 && random < 60)
             setBulletCount();
-        else if(random >= 60 || random <= 100)
+        else if(random >= 60 && random <=100)
             setBatteryCount();
     }
     public int getBulletCount()
@@ -52,6 +57,7 @@ public class Intractable : MonoBehaviour
     }
     void setBatteryCount()
     {
+        Debug.Log("Setting Batteries!");
         if(teirOfStuff == 0 || teirOfStuff < tier1)
             batteryCount = UnityEngine.Random.Range(10,30);
         else if(teirOfStuff >= tier1 || teirOfStuff <= tier2)
