@@ -18,8 +18,7 @@ public class Intractable : MonoBehaviour
         teirOfStuff = UnityEngine.Random.Range(0,100);
         if(random == 0 || random < 20)
         {
-            Debug.Log("I am setting empty");
-            return;
+            setHealthCount();
         }
         else if(random >= 20 && random < 60)
             setBulletCount();
@@ -53,7 +52,12 @@ public class Intractable : MonoBehaviour
     }
     void setHealthCount()
     {
-
+        if(teirOfStuff == 0 || teirOfStuff < tier1)
+            healthCount = UnityEngine.Random.Range(20,50);
+        else if(teirOfStuff >= tier1 || teirOfStuff <= tier2)
+            healthCount = UnityEngine.Random.Range(50,75);
+        else if(teirOfStuff >= tier2 || teirOfStuff <= tier3)
+            healthCount = 100;
     }
     void setBatteryCount()
     {

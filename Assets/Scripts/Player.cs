@@ -1,12 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using TreeEditor;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Processors;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -22,6 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField]float speed;
     [SerializeField]int ammoCount;
     [SerializeField]int battery;
+    [SerializeField]int health;
     private float distance;
 
     private PlayerWeapon s_playerWeapon;
@@ -58,6 +55,7 @@ public class Player : MonoBehaviour
         s_playerWeapon = gameObject.GetComponentInChildren<PlayerWeapon>();
         s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
         updateFlashlight(checkFlashBattery());
+        Debug.Log(flashLight);
     }
     // Update is called once per frame
     void Update()
@@ -66,6 +64,7 @@ public class Player : MonoBehaviour
         updateUI();
         updateFlashBattery();
     }
+    //Updates the players rotation based on keyboard input and mouse input
     void playerMovement()
     {
         Vector2 player, mouse;
@@ -77,9 +76,8 @@ public class Player : MonoBehaviour
         distance = MathF.Sqrt(MathF.Pow(player.x-mouse.x,2)+MathF.Pow(player.y-mouse.y,2));
 
         rb.MovePosition(rb.position += c_playerMove.ReadValue<Vector2>()*Time.deltaTime*5);
-
-        //cam.transform.position = new Vector3(player.x, player.y, -10);
     }
+    //Toggles the Flashlight based on Player Input
     void toggleFlashlight(InputAction.CallbackContext ctx)
     {
         if(flashLight.activeSelf == true)
@@ -93,10 +91,12 @@ public class Player : MonoBehaviour
             updateFlashlight(true);
         }
     }
+    //Sets flashlight active state
     void updateFlashlight(bool state)
     {
         flashLight.SetActive(state);
     }
+    //Checks battery state and returns a boolean
     bool checkFlashBattery()
     {
         if(battery <= 0)
@@ -104,18 +104,23 @@ public class Player : MonoBehaviour
         else
             return true;
     }
+    // 
     void updateFlashBattery()
     {
-        Debug.Log(batteryUpdate);
         if(batteryUpdate == false && flashLight.activeSelf == true)
         {
-            //Debug.LogWarning("Killing Battery");
+            Debug.LogAssertion("Killing Battery");
             StartCoroutine("flashBattery");
         }
         if(!checkFlashBattery())
+        {
             updateFlashlight(false);
+            StopCoroutine("flashBattery");
+            batteryUpdate = false;
+        }
         s_UIHandler.updateBattery(battery);
     }
+    // Threads killing the battery every 3 seconds
     IEnumerator flashBattery()
     {
         //Debug.LogError("Killing Battery");
@@ -124,13 +129,13 @@ public class Player : MonoBehaviour
         battery--;
         batteryUpdate = false;
     }
-
-
+    //Fires the players weapon based on input from the Input System
     void shoot(InputAction.CallbackContext ctx)
     {
         s_playerWeapon.shoot();
         s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
     }
+    //Reloads the gun if there is ammo avaliable
     void reload(InputAction.CallbackContext ctx)
     {
         int current = s_playerWeapon.getcurrentMagSize();
@@ -148,6 +153,7 @@ public class Player : MonoBehaviour
         ammoCount -= need;
         s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
     }
+    //Fires a raycast and checks if there is something the player can interact with
     void interact(InputAction.CallbackContext ctx)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 2,  interactMask);
@@ -156,12 +162,16 @@ public class Player : MonoBehaviour
             Intractable temp = hit.transform.gameObject.GetComponent<Intractable>();
             ammoCount += temp.getBulletCount();
             battery += temp.getBatteryCount();
+            health += temp.getHealthCount();
             battery = Mathf.Clamp(battery, 0, 100);
+            health = Mathf.Clamp(health, 0, 100);
             temp.useInteractable();
         }
         s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
         s_UIHandler.updateBattery(battery);
+        s_UIHandler.updateHealth(health);
     }
+    //Updates the UI if there something new to update
     void updateUI()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 2,  interactMask);
@@ -170,8 +180,20 @@ public class Player : MonoBehaviour
         else
             s_UIHandler.setInteractText(false);
     }
+    //Retuns the distance the mouse is from the player
     public float getDistance()
     {
         return distance;
+    }
+    void checkHealth()
+    {
+        if(health == 0)
+            SceneManager.LoadScene(1);
+    }
+    public void takeDamage(int damage)
+    {
+        health -= damage;
+        s_UIHandler.updateHealth(health);
+        checkHealth();
     }
 }

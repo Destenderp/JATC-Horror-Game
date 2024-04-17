@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "JATC Horror Game.sln"
+    "dotnet.defaultSolution": "JATC-Horror-Game.sln"
 }

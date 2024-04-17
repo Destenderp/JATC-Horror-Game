@@ -8,4 +8,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/You Lost.unity
+    guid: 7728e0a55b27747d9b39b944bd66b72b
+  - enabled: 1
+    path: Assets/Scenes/You Win.unity
+    guid: 6069dee2b4f894e3ca308371921768e8
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

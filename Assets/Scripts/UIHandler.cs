@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-
 public class UIHandler : MonoBehaviour
 {
     [SerializeField]TextMeshProUGUI interactText;
@@ -14,6 +12,8 @@ public class UIHandler : MonoBehaviour
     [SerializeField]TextMeshProUGUI ammoCounter;
     [SerializeField]TextMeshProUGUI batteryLevel;
 
+    [SerializeField]Image healthPanel;
+
     public void setInteractText(bool isActive, GameObject interactName)
     {
         interactText.gameObject.SetActive(isActive);
@@ -21,7 +21,7 @@ public class UIHandler : MonoBehaviour
         contents.gameObject.SetActive(isActive);
         interactText.text = "Press E to Interact with " + interactName.gameObject.name;
         Intractable temp = interactName.GetComponent<Intractable>();
-        contents.text = "Contents \n" + "Bullets " + temp.getBulletCount() + "\n Batteries " + temp.getBatteryCount();
+        contents.text = "Contents \n" + "Bullets " + temp.getBulletCount() + "\n Batteries " + temp.getBatteryCount() + "\n Health " +temp.getHealthCount();
     }
     public void setInteractText(bool isActive)
     {
@@ -36,5 +36,9 @@ public class UIHandler : MonoBehaviour
     public void updateBattery(int currentLevel)
     {
         batteryLevel.text = currentLevel +" / "+ 100;
+    }
+    public void updateHealth(float currentHealth)
+    {
+        healthPanel.fillAmount = currentHealth/100;
     }
 }
