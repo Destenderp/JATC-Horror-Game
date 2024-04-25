@@ -33,12 +33,12 @@ public class Player : MonoBehaviour
     [SerializeField]GameObject interactable;
     [SerializeField]GameObject flashLight;
     [SerializeField]AnalogGlitch AG;
+    [SerializeField]DigitalGlitch DG;
     //[SerializeField]GameObject cam;
 
     LayerMask interactMask;
 
     bool batteryUpdate = false;
-    public bool tutorialTrigger;
     // Start is called before the first frame update
     void Start()
     {
@@ -140,13 +140,8 @@ public class Player : MonoBehaviour
     //Fires the players weapon based on input from the Input System
     void shoot(InputAction.CallbackContext ctx)
     {
-        if(tutorialTrigger != true)
-        {
             s_playerWeapon.shoot(anim);
             updateUI();
-        }
-        else
-            s_playerWeapon.setCurrentMagSize(s_playerWeapon.getcurrentMagSize() + 1);
     }
     //Reloads the gun if there is ammo avaliable
     void reload(InputAction.CallbackContext ctx)
@@ -188,9 +183,8 @@ public class Player : MonoBehaviour
                 //Add Teleportation from this position
                 gameObject.transform.position = new Vector3(-23,-2.5f,0);
                 s_UIHandler.setIsTutorial(false);
-                AG.scanLineJitter = 0.02f;
-                AG.horizontalShake = 0.01f;
                 AG.colorDrift = 0.06f;
+                DG.intensity = 0.06f;
                 s_UIHandler.Tutorial(true);
             }
             else if(hit.transform.gameObject.tag == "Door")
@@ -246,9 +240,5 @@ public class Player : MonoBehaviour
         health -= damage;
         s_UIHandler.updateHealth(health);
         checkHealth();
-    }
-    public void setTutorialTrigger(bool trigger)
-    {
-        tutorialTrigger = trigger;
     }
 }
