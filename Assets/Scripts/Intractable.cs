@@ -4,13 +4,20 @@ using UnityEngine.UIElements;
 
 public class Intractable : MonoBehaviour
 {
+    [SerializeField]bool pitySystem;
     [SerializeField]static int tier1 = 20, tier2 = 70, tier3 = 100;
     [SerializeField] int bulletCount;
     [SerializeField] int batteryCount;
     [SerializeField] int healthCount;
+    [SerializeField] string key;
 
     int random, teirOfStuff;
-    void Awake()
+    void Start()
+    {
+        if(!pitySystem)
+            setTrashCans();
+    }
+    void setTrashCans()
     {
         Debug.Log(gameObject.name);
         random = UnityEngine.Random.Range(0,100);
@@ -36,6 +43,10 @@ public class Intractable : MonoBehaviour
     public int getHealthCount()
     {
         return healthCount;
+    }
+    public string getKey()
+    {
+        return key;
     }
     public void useInteractable()
     {

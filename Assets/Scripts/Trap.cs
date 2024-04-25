@@ -17,7 +17,7 @@ public class Trap : MonoBehaviour
             temp.takeDamage(damage);
             recording.SetActive(false);
             canDamage = false;
-            cooldownTime = 30;
+            cooldownTime = 10;
         } 
     }
     void Update()

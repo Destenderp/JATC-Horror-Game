@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Garbage Can
+  - TV
+  - Door
   layers:
   - Default
   - TransparentFX

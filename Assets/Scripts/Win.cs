@@ -9,6 +9,6 @@ public class Win : MonoBehaviour
     {
         Player temp = other.gameObject.GetComponent<Player>();
         if(temp != null)
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(3);
     }
 }
