@@ -4,13 +4,20 @@ using UnityEngine.UIElements;
 
 public class Intractable : MonoBehaviour
 {
+    [SerializeField]bool pitySystem;
     [SerializeField]static int tier1 = 20, tier2 = 70, tier3 = 100;
     [SerializeField] int bulletCount;
     [SerializeField] int batteryCount;
     [SerializeField] int healthCount;
+    [SerializeField] string key;
 
     int random, teirOfStuff;
-    void Awake()
+    void Start()
+    {
+        if(!pitySystem)
+            setTrashCans();
+    }
+    void setTrashCans()
     {
         Debug.Log(gameObject.name);
         random = UnityEngine.Random.Range(0,100);
@@ -18,8 +25,7 @@ public class Intractable : MonoBehaviour
         teirOfStuff = UnityEngine.Random.Range(0,100);
         if(random == 0 || random < 20)
         {
-            Debug.Log("I am setting empty");
-            return;
+            setHealthCount();
         }
         else if(random >= 20 && random < 60)
             setBulletCount();
@@ -38,6 +44,10 @@ public class Intractable : MonoBehaviour
     {
         return healthCount;
     }
+    public string getKey()
+    {
+        return key;
+    }
     public void useInteractable()
     {
         Destroy(gameObject);
@@ -53,7 +63,12 @@ public class Intractable : MonoBehaviour
     }
     void setHealthCount()
     {
-
+        if(teirOfStuff == 0 || teirOfStuff < tier1)
+            healthCount = UnityEngine.Random.Range(20,50);
+        else if(teirOfStuff >= tier1 || teirOfStuff <= tier2)
+            healthCount = UnityEngine.Random.Range(50,75);
+        else if(teirOfStuff >= tier2 || teirOfStuff <= tier3)
+            healthCount = 100;
     }
     void setBatteryCount()
     {
