@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class Win : MonoBehaviour
 {
+    [SerializeField]SceneManager s_SceneManager;
     void OnTriggerEnter2D(Collider2D other) 
     {
         Player temp = other.gameObject.GetComponent<Player>();
         if(temp != null)
-            SceneManager.LoadScene(3);
+            s_SceneManager.playerWin();
     }
 }

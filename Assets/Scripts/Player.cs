@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Kino;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -17,9 +15,10 @@ public class Player : MonoBehaviour
     [SerializeField]InputAction c_reload;
     [SerializeField]InputAction c_interact;
     [SerializeField]InputAction c_flashLight;
+    [SerializeField]InputAction c_Melee;
     [SerializeField]Animator anim;
     
-    [SerializeField]float speed;
+    [SerializeField]Vector2 meleeDamage;
     [SerializeField]int ammoCount;
     [SerializeField]int battery;
     [SerializeField]int health;
@@ -27,10 +26,10 @@ public class Player : MonoBehaviour
 
     private PlayerWeapon s_playerWeapon;
     [SerializeField]UIHandler s_UIHandler;
+    [SerializeField]SceneManager s_SceneManager;
     private Rigidbody2D rb;
     [SerializeField]List<string> keys;
 
-    [SerializeField]GameObject interactable;
     [SerializeField]GameObject flashLight;
     [SerializeField]AnalogGlitch AG;
     [SerializeField]DigitalGlitch DG;
@@ -39,6 +38,7 @@ public class Player : MonoBehaviour
     LayerMask interactMask;
 
     bool batteryUpdate = false;
+    bool MCD = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,11 +49,13 @@ public class Player : MonoBehaviour
         c_reload.Enable();
         c_interact.Enable();
         c_flashLight.Enable();
+        c_Melee.Enable();
 
         c_shoot.performed += shoot;
         c_reload.performed += reload;
         c_interact.performed += interact;
         c_flashLight.performed += toggleFlashlight;
+        c_Melee.performed += meleeAttack;
 
         interactMask = LayerMask.GetMask("Interactable");
 
@@ -73,6 +75,7 @@ public class Player : MonoBehaviour
         updateFlashBattery();
     }
     //Updates the players rotation based on keyboard input and mouse input
+    //Ran once per frame
     void playerMovement()
     {
         Vector2 player, mouse;
@@ -85,6 +88,7 @@ public class Player : MonoBehaviour
 
         rb.MovePosition(rb.position += c_playerMove.ReadValue<Vector2>()*Time.deltaTime*5);
     }
+    #region Flashlight
     //Toggles the Flashlight based on Player Input
     void toggleFlashlight(InputAction.CallbackContext ctx)
     {
@@ -100,6 +104,7 @@ public class Player : MonoBehaviour
         }
     }
     //Sets flashlight active state
+    //Triggered by the battery method and player input
     void updateFlashlight(bool state)
     {
         flashLight.SetActive(state);
@@ -112,7 +117,8 @@ public class Player : MonoBehaviour
         else
             return true;
     }
-    // 
+    //Updates the Flashlight battery
+    //Ran Once Per Frame
     void updateFlashBattery()
     {
         if(batteryUpdate == false && flashLight.activeSelf == true)
@@ -137,6 +143,8 @@ public class Player : MonoBehaviour
         battery--;
         batteryUpdate = false;
     }
+    #endregion
+    #region Player Weapon
     //Fires the players weapon based on input from the Input System
     void shoot(InputAction.CallbackContext ctx)
     {
@@ -161,6 +169,27 @@ public class Player : MonoBehaviour
         ammoCount -= need;
         updateUI();
     }
+    void meleeAttack(InputAction.CallbackContext ctx)
+    {
+        //Checks if the animation for the melee attack has run
+        if(!MCD)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 2, LayerMask.GetMask("Enemy"));
+            Enemy temp = hit.collider.gameObject.GetComponent<Enemy>();
+            temp.changeHealth((int)UnityEngine.Random.Range(-meleeDamage.x, -meleeDamage.y));
+            MCD = true;
+            //TODO: Melee Attack Anim
+            StartCoroutine(meleeCoolDown());
+        }
+    }
+    //Stops the melee attack for the duration of the melee animation
+    IEnumerator meleeCoolDown()
+    {
+        yield return new WaitForSeconds(0.5f);
+        MCD = false;
+    }
+    #endregion
+    #region Player Interaction
     //Fires a raycast and checks if there is something the player can interact with
     void interact(InputAction.CallbackContext ctx)
     {
@@ -189,11 +218,21 @@ public class Player : MonoBehaviour
             }
             else if(hit.transform.gameObject.tag == "Door")
             {
-                hit.transform.gameObject.GetComponent<Door>().checkKey(keys);
+                Door tempDoor = hit.transform.gameObject.GetComponent<Door>();
+                if(!tempDoor.m_isUnlocked())
+                {
+                    tempDoor.checkKey(keys);
+                }
+                else if(tempDoor.m_isUnlocked())
+                {
+                    tempDoor.toggleDoor();
+                }
             }
         }
         updateUI();
     }
+    #endregion
+    #region UI
     //Updates the UI if there something new to update
     void updateUI()
     {
@@ -225,20 +264,19 @@ public class Player : MonoBehaviour
             s_UIHandler.setTutorialInteraction(true, "Press WASD to Move \n Use the Mouse to Look\nLook for the TV!");
         }
     }
-    //Retuns the distance the mouse is from the player
-    public float getDistance()
-    {
-        return distance;
-    }
-    void checkHealth()
-    {
-        if(health == 0)
-            SceneManager.LoadScene(2);
-    }
+    #endregion
+    #region Player Health
     public void takeDamage(int damage)
     {
         health -= damage;
         s_UIHandler.updateHealth(health);
         checkHealth();
     }
+   void checkHealth()
+    {
+        if(health == 0)
+            s_SceneManager.playerDeath();
+            
+    }
+    #endregion
 }

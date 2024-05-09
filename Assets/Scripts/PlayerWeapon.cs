@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using UnityEngine.Animations;
 
 public class PlayerWeapon : MonoBehaviour
 {
@@ -29,11 +25,13 @@ public class PlayerWeapon : MonoBehaviour
     {
         currentMagSize = bullets;
     }
+    //Adds bullets to the magasize with reloadAmount
     public void reload(int reloadAmount)
     {
         currentMagSize += reloadAmount;
         Debug.Log("Gun has been reloaded");
     }
+    //Shoots the player weapon
     public void shoot(Animator anim)
     {
         if(currentMagSize != 0 && isRecharged == true)
@@ -45,9 +43,10 @@ public class PlayerWeapon : MonoBehaviour
             pro.GetComponent<Projectile>().setDamage(damage);
             StartCoroutine(shootDelay());
         }
-        else if(currentMagSize == 0)
+        else if(currentMagSize == 0) 
             Debug.Log("*Click*");
     }
+    //Delays fire for the gun until the animation has finished playing.
     IEnumerator shootDelay()
     {
         Debug.Log("Delaying Fire");

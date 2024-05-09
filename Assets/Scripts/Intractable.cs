@@ -12,11 +12,14 @@ public class Intractable : MonoBehaviour
     [SerializeField] string key;
 
     int random, teirOfStuff;
+    //Checks if the pity system is active
     void Start()
     {
         if(!pitySystem)
             setTrashCans();
     }
+    //Creates two random percentiles
+    //One determines the item the other is used in the set method to determine teir of item
     void setTrashCans()
     {
         Debug.Log(gameObject.name);
@@ -48,10 +51,12 @@ public class Intractable : MonoBehaviour
     {
         return key;
     }
+    //If the interactable is used it is then destroyed
     public void useInteractable()
     {
         Destroy(gameObject);
     }
+    //Sete a bullet count
     void setBulletCount()
     {
         if(teirOfStuff == 0 || teirOfStuff < tier1)
@@ -61,6 +66,7 @@ public class Intractable : MonoBehaviour
         else if(teirOfStuff >= tier2 || teirOfStuff <= tier3)
             bulletCount = UnityEngine.Random.Range(15,20);
     }
+    //Sets a health count
     void setHealthCount()
     {
         if(teirOfStuff == 0 || teirOfStuff < tier1)
@@ -70,6 +76,7 @@ public class Intractable : MonoBehaviour
         else if(teirOfStuff >= tier2 || teirOfStuff <= tier3)
             healthCount = 100;
     }
+    //Sets a battery count
     void setBatteryCount()
     {
         Debug.Log("Setting Batteries!");

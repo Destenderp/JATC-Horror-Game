@@ -12,9 +12,9 @@ public class UIHandler : MonoBehaviour
     [SerializeField]TextMeshProUGUI contents;
     [SerializeField]GameObject interactPane;
     [SerializeField]TextMeshProUGUI ammoCounter;
-    [SerializeField]TextMeshProUGUI batteryLevel;
+    [SerializeField]Image batteryLevel;
 
-    [SerializeField]Image healthPanel;
+    [SerializeField]Image healthBar;
     [SerializeField]GameObject HealthPanel;
     void Start()
     {
@@ -23,6 +23,7 @@ public class UIHandler : MonoBehaviour
             Tutorial(false);
         }
     }
+    //Turns off the player hud for the tutorial
     public void Tutorial(bool tutorialActiveState)
     {
             HealthPanel.SetActive(tutorialActiveState);
@@ -30,6 +31,7 @@ public class UIHandler : MonoBehaviour
             batteryLevel.gameObject.SetActive(tutorialActiveState);
             contents.gameObject.SetActive(tutorialActiveState);
     }
+    //Writes the interaction text based on the object and its contents
     public void setInteractText(bool isActive, GameObject interactName)
     {
         interactText.gameObject.SetActive(isActive);
@@ -41,6 +43,7 @@ public class UIHandler : MonoBehaviour
             contents.text = "Contents \n" + "Bullets " + temp.getBulletCount() + "\n Batteries " + temp.getBatteryCount() + "\n Health " +temp.getHealthCount() + "\n Keys | " + temp.getKey();
         
     }
+    //Writes the interact text if there is a door in the path of the player
     public void setInteractText(bool isActive, GameObject interactName, List<string> keys)
     {
         contents.gameObject.SetActive(false);
@@ -61,12 +64,14 @@ public class UIHandler : MonoBehaviour
                 interactText.text = "You Cannot Open The Door \nFind The " + doorTemp.getKey() + " Key";
         }
     }
+    //Toggles the interact text panel
     public void setInteractText(bool isActive)
     {
         interactText.gameObject.SetActive(isActive);
         interactPane.SetActive(isActive);
         contents.gameObject.SetActive(isActive);
     }
+    //Sets up the tutorial interaction text
     public void setTutorialInteraction(bool isActive, string tutoralText)
     {
         Debug.LogWarning("Setting Tutorial Text");
@@ -74,31 +79,27 @@ public class UIHandler : MonoBehaviour
         interactText.gameObject.SetActive(isActive);
         interactText.text = tutoralText;
     }
-    public void setTutorialInteraction(bool isActive)
-    {
-        interactPane.SetActive(isActive);
-        interactText.gameObject.SetActive(isActive);
-    }
+    // Updates the bullet counter
     public void updateBullets(int ammoInGun, int ammoOnPlayer)
     {
         ammoCounter.text = ammoInGun + " / " + ammoOnPlayer;
     }
-    public void updateBattery(int currentLevel)
+    //Updates the battery bar
+    public void updateBattery(float currentLevel)
     {
-        batteryLevel.text = currentLevel +" / "+ 100;
+        batteryLevel.fillAmount = currentLevel/100;
     }
+    //Updates the health bar
     public void updateHealth(float currentHealth)
     {
-        healthPanel.fillAmount = currentHealth/100;
+        healthBar.fillAmount = currentHealth/100;
     }
-    public TextMeshProUGUI getAmmoCounter()
-    {
-        return ammoCounter;
-    }
+    //Sets the tutorial boolean
     public void setIsTutorial(bool isTutorial)
     {
         this.isTutorial = isTutorial;
     }
+    //Returns the tutorial boolean
     public bool getIsTutorial()
     {
         return isTutorial;

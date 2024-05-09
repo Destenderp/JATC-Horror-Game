@@ -15,16 +15,23 @@ public class MainMenuManager : MonoBehaviour
     public void StartButton()
     {
         Debug.Log("You Started the Game");
-        SceneManager.LoadScene("MainLevel");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainLevel");
     }
     public void TutorialButton()
     {
-        SceneManager.LoadScene("Tutorial");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Tutorial");
     }
     void quitGame(InputAction.CallbackContext ctx)
     {
         Debug.Log("I Quit the Game");
         Application.Quit();
+    }
+    public void toggleFullscreen(bool isActive)
+    {
+        if(isActive)
+            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        if(!isActive)
+            Screen.fullScreenMode = FullScreenMode.Windowed;
     }
     
 }

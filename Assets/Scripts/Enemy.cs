@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     Vector3 enemy;
 
     [SerializeField]LayerMask wallMask;
-
+    //Sets up the basic fields for the enemy to run
     void Awake()
     {
         mp = gameObject.transform.Find("Movement Point");
@@ -22,11 +22,13 @@ public class Enemy : MonoBehaviour
         wallMask = LayerMask.GetMask("Wall");
         choosePosition();
     }
+    //Updates every frame
     void Update()
    {
         move();
         checkWall();
-   } 
+   }
+   //Changes the enemies health depending on the change 
     public void changeHealth(int change)
     {
         health += change;
@@ -35,10 +37,12 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    //Moves the enemy forward
     void move()
     {
         transform.Translate(Vector2.up*Time.deltaTime* speed);
     }
+    //Picks a random position for the enemy to start moving twords
     void choosePosition()
     {
         enemy = gameObject.transform.position;
@@ -49,6 +53,7 @@ public class Enemy : MonoBehaviour
         float degAngle = Mathf.Rad2Deg * radAngle;
         transform.rotation = Quaternion.Euler(0,0,degAngle);
     }
+    //Checks if there is an object in the way of the enemy
     void checkWall()
     {
         Vector2 rayCast = new Vector2(Vector2.up.x, Vector2.up.y + 1);

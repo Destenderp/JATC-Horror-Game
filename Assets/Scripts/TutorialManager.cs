@@ -15,21 +15,20 @@ public class TutorialManager : MonoBehaviour
     {
         SetTutorialPane(false);
     }
+    //Toggles the tutorial pane based on input
     public void tutorial(string text, bool paneEnable)
     {
         SetTutorialText(text);
         SetTutorialPane(paneEnable);
     }
+    //Sets the tutorial text based on a string
     public void SetTutorialText(string text)
     {
         this.text.text = text;
     }
+    //Method overload that does not require a string to run
     public void SetTutorialPane(bool paneEnable)
     {
         tutorialPane.SetActive(paneEnable);
-    }
-    public void closePane()
-    {
-        SetTutorialPane(false);
     }
 }
