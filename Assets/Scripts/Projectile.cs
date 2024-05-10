@@ -26,13 +26,13 @@ public class Projectile : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         Enemy enemy = other.gameObject.GetComponent<Enemy>();
-        Trap trap = other.gameObject.GetComponent<Trap>();
+        CameraTrap trap = other.gameObject.GetComponent<CameraTrap>();
         if(other.gameObject.GetComponent<Enemy>() != null)
         {
             //If it hits an enemy they take damage
             enemy.changeHealth(damage);
         }
-        if(other.gameObject.GetComponent<Trap>() != null)
+        if(trap != null)
         {
             //If it hits a trap (Camera) it is going to disable it
             trap.disableCamera();

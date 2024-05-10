@@ -110,7 +110,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: cfd050b0f3184452d8295520c3f48f1c, type: 3}
-  m_Color: {r: 1, g: 0.6021238, b: 0.25, a: 1}
+  m_Color: {r: 0.3301887, g: 0.26907742, b: 0.21337666, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -118,7 +118,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &1840794746949632056
 BoxCollider2D:
@@ -252,12 +252,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5546298612022522587}
     - target: {fileID: 9106669785269886365, guid: 22740a17fa65945d38c7d8a7845dfe50, type: 3}
+      propertyPath: m_Color.b
+      value: 0.21337666
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106669785269886365, guid: 22740a17fa65945d38c7d8a7845dfe50, type: 3}
+      propertyPath: m_Color.g
+      value: 0.26907742
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106669785269886365, guid: 22740a17fa65945d38c7d8a7845dfe50, type: 3}
+      propertyPath: m_Color.r
+      value: 0.3301887
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106669785269886365, guid: 22740a17fa65945d38c7d8a7845dfe50, type: 3}
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9106669785269886365, guid: 22740a17fa65945d38c7d8a7845dfe50, type: 3}
       propertyPath: m_MaskInteraction
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9106669785269886365, guid: 22740a17fa65945d38c7d8a7845dfe50, type: 3}
       propertyPath: m_SpriteSortPoint

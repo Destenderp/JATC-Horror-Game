@@ -98,12 +98,12 @@ GameObject:
   - component: {fileID: 6660263989532446300}
   - component: {fileID: 5205059007312981052}
   - component: {fileID: 4720462022675587057}
-  - component: {fileID: 4428419883689952373}
   - component: {fileID: 8268413813963671348}
+  - component: {fileID: 4057727734208912322}
   m_Layer: 11
   m_Name: Camera
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -262,23 +262,6 @@ PolygonCollider2D:
       - {x: 1.8669579, y: 0.2716521}
       - {x: 0.5, y: 0.5}
   m_UseDelaunayMesh: 0
---- !u!114 &4428419883689952373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6532422641743045525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 439d142a965a9403eb6639bb76825d64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  cooldownTime: 0
-  recording: {fileID: 187512215435308010}
-  canDamage: 0
-  isdDamaged: 0
 --- !u!61 &8268413813963671348
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -325,3 +308,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4057727734208912322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532422641743045525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69152901bc1964f2d90894ef20203099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  cooldownTime: 0
+  isdDamaged: 0
+  recording: {fileID: 187512215435308010}
+  canDamage: 0

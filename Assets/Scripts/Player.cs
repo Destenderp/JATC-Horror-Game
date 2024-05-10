@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using Kino;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    const float PLAYER_SPEED = 8;
     IEnumerator fb;
 
     [SerializeField]InputAction c_playerMove;
@@ -21,7 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField]Vector2 meleeDamage;
     [SerializeField]int ammoCount;
     [SerializeField]int battery;
-    [SerializeField]int health;
+    [SerializeField]float health;
+    [SerializeField]float speed;
     private float distance;
 
     private PlayerWeapon s_playerWeapon;
@@ -43,6 +46,22 @@ public class Player : MonoBehaviour
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
+
+        resetSpeed();
+        loadInputSystem();
+
+        interactMask = LayerMask.GetMask("Interactable");
+
+        fb = flashBattery();
+
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        s_playerWeapon = gameObject.GetComponentInChildren<PlayerWeapon>();
+        s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
+        updateFlashlight(checkFlashBattery());
+        Debug.Log(flashLight);
+    }
+    void loadInputSystem()
+    {
         c_playerMove.Enable();
         c_mousePosition.Enable();
         c_shoot.Enable();
@@ -56,16 +75,6 @@ public class Player : MonoBehaviour
         c_interact.performed += interact;
         c_flashLight.performed += toggleFlashlight;
         c_Melee.performed += meleeAttack;
-
-        interactMask = LayerMask.GetMask("Interactable");
-
-        fb = flashBattery();
-
-        rb = gameObject.GetComponent<Rigidbody2D>();
-        s_playerWeapon = gameObject.GetComponentInChildren<PlayerWeapon>();
-        s_UIHandler.updateBullets(s_playerWeapon.getcurrentMagSize(), ammoCount);
-        updateFlashlight(checkFlashBattery());
-        Debug.Log(flashLight);
     }
     // Update is called once per frame
     void Update()
@@ -86,7 +95,19 @@ public class Player : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0,0,angle+90));
         distance = MathF.Sqrt(MathF.Pow(player.x-mouse.x,2)+MathF.Pow(player.y-mouse.y,2));
 
-        rb.MovePosition(rb.position += c_playerMove.ReadValue<Vector2>()*Time.deltaTime*5);
+        rb.MovePosition(rb.position += c_playerMove.ReadValue<Vector2>()*Time.deltaTime*speed);
+    }
+    public float getSpeed()
+    {
+        return speed;
+    }
+    public void setSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+    public void resetSpeed()
+    {
+        speed = PLAYER_SPEED;
     }
     #region Flashlight
     //Toggles the Flashlight based on Player Input
@@ -266,7 +287,7 @@ public class Player : MonoBehaviour
     }
     #endregion
     #region Player Health
-    public void takeDamage(int damage)
+    public void takeDamage(float damage)
     {
         health -= damage;
         s_UIHandler.updateHealth(health);
@@ -274,7 +295,7 @@ public class Player : MonoBehaviour
     }
    void checkHealth()
     {
-        if(health == 0)
+        if(health <= 0)
             s_SceneManager.playerDeath();
             
     }
