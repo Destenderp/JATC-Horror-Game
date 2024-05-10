@@ -134,7 +134,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0.01, y: 0.03, z: -0.10999144}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2593693704549582577}
@@ -444,7 +444,7 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
-      m_Id: 75260ee6-3e5d-479e-97ec-e81f435e6a5d
+      m_Id: 03471bb6-83e5-4a8b-9020-997e460b76ff
       m_Path: <Keyboard>/tab
       m_Interactions: 
       m_Processors: 
@@ -453,15 +453,14 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   anim: {fileID: 2600221562496526506}
-  speed: 5
   meleeDamage: {x: 3, y: 3}
   ammoCount: 14
   battery: 20
   health: 100
+  speed: 5
   s_UIHandler: {fileID: 0}
   s_SceneManager: {fileID: 0}
   keys: []
-  interactable: {fileID: 8772909342097344735}
   flashLight: {fileID: 4600107739002416567}
   AG: {fileID: 0}
   DG: {fileID: 0}
@@ -575,13 +574,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4600107739002416567}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 0.01, y: 5.42, z: -0.10999144}
-  m_LocalScale: {x: 1.277276, y: 1.6520256, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.99970233, w: 0.024399102}
+  m_LocalPosition: {x: -0.343, y: 0.686, z: -0.10999144}
+  m_LocalScale: {x: 1.277276, y: 1.6616074, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2593693704549582577}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 177.204}
 --- !u!331 &2297465863372965209
 SpriteMask:
   m_ObjectHideFlags: 0
@@ -625,16 +624,16 @@ SpriteMask:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3762798941061781246, guid: df4419d96b4d7014298b4e93b56904b5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: df4419d96b4d7014298b4e93b56904b5, type: 3}
   m_MaskAlphaCutoff: 0
   m_FrontSortingLayerID: 0
   m_BackSortingLayerID: 0
   m_FrontSortingLayer: 0
   m_BackSortingLayer: 0
-  m_FrontSortingOrder: 61
-  m_BackSortingOrder: -200
+  m_FrontSortingOrder: 56
+  m_BackSortingOrder: -194
   m_IsCustomRangeActive: 0
-  m_SpriteSortPoint: 1
+  m_SpriteSortPoint: 0
   m_MaskSource: 0
 --- !u!1 &4836172047473266787
 GameObject:
