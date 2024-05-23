@@ -22,6 +22,7 @@ public class BloodTrap : MonoBehaviour
     {
         player = other.gameObject.GetComponent<Player>();
         player.resetSpeed();
+        Destroy(gameObject);
     }
 
 }

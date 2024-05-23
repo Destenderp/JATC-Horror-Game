@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: f98a3389668d1994caec8ed27f3de544
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - boss: {instanceID: 0}
+  - enemyProjectile: {fileID: 8942913285957640930, guid: b23a371870901394ba5a43ef175a7cd5, type: 3}
+  - enemyProjectilePosition: {instanceID: 0}
+  - enemyAttackBlood: {fileID: 791061024472319084, guid: b1e810b7fb08abd4f83c17afd5217a12, type: 3}
+  - enemyCASTLEOFGLASS: {fileID: 3402786145559074422, guid: b24dffa068196814ab296c91f2d1f187, type: 3}
+  - enemySquareOfLighting: {fileID: 5273645996634792362, guid: 921aa61a35700204a825be3feb9900aa, type: 3}
+  - enemyLaser: {fileID: 6069925289135069270, guid: 8c75757759d51d5429a0b9696b15767b, type: 3}
+  - enemyRandomSpawns: {fileID: 6727945952253567848, guid: 0e60ee7e7a846e640a78d984e0d599cf, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

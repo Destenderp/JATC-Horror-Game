@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f98a3389668d1994caec8ed27f3de544, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  boss: {fileID: 0}
+  Name: Attack
+  considerations:
+  - {fileID: 11400000, guid: 50b2651d6eb53ff4a9d482057a15aa50, type: 2}
+  enemyProjectile: {fileID: 8667240431353416828, guid: cd61dc418dbda6c42bd1566fa7ade13f, type: 3}
+  enemyProjectilePosition: {fileID: 0}
+  enemyAttackBlood: {fileID: 5525138247800996087, guid: e8a2c6779deda4ff885d1bd09392e213, type: 3}
+  enemyCASTLEOFGLASS: {fileID: 191409731374270711, guid: 31a12a751882946248638e8693224842, type: 3}
+  enemySquareOfLighting: {fileID: 3038397284302365751, guid: 230e4c8be4e314b368561aa473fc374c, type: 3}
+  enemyLaser: {fileID: 5475501911870786891, guid: b40e3760126d34b5f8f886d0d76823b7, type: 3}
+  enemyRandomSpawns: {fileID: 5746594062017943429, guid: 21d92bd15a14a44a08a8fd74a5d2dc01, type: 3}
+  _boss: {fileID: 0}
+  player: {fileID: 0}
+  playerPosition: {fileID: 0}

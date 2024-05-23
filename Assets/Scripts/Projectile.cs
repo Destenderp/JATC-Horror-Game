@@ -27,10 +27,19 @@ public class Projectile : MonoBehaviour
     {
         Enemy enemy = other.gameObject.GetComponent<Enemy>();
         CameraTrap trap = other.gameObject.GetComponent<CameraTrap>();
+        AiMovement move = other.gameObject.GetComponent<AiMovement>();
         if(other.gameObject.GetComponent<Enemy>() != null)
         {
             //If it hits an enemy they take damage
             enemy.changeHealth(damage);
+        }
+        if(other.gameObject.GetComponent<AiMovement>() != null)
+        {
+            move.takeDamage(damage);
+        }
+        if(other.gameObject.GetComponent<Player>() != null)
+        {
+            other.gameObject.GetComponent<Player>().takeDamage(3f);
         }
         if(trap != null)
         {

@@ -15,7 +15,7 @@ public class MainMenuManager : MonoBehaviour
     public void StartButton()
     {
         Debug.Log("You Started the Game");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainLevel");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(2);
     }
     public void TutorialButton()
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
 using Kino;
+using TL.UtilityAI.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -43,6 +43,10 @@ public class Player : MonoBehaviour
     bool batteryUpdate = false;
     bool MCD = false;
     // Start is called before the first frame update
+    public Player(float speed)
+    {
+        this.speed = speed;
+    }
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
@@ -82,6 +86,7 @@ public class Player : MonoBehaviour
         playerMovement();
         updateUI();
         updateFlashBattery();
+
     }
     //Updates the players rotation based on keyboard input and mouse input
     //Ran once per frame
@@ -169,8 +174,34 @@ public class Player : MonoBehaviour
     //Fires the players weapon based on input from the Input System
     void shoot(InputAction.CallbackContext ctx)
     {
+        Debug.Log(Attack.waitingForClicks);
+        if (Attack.waitingForClicks)
+            {
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+                if (hit.collider != null)
+                {
+                    GameObject clickedObject = hit.collider.gameObject;
+                    if (clickedObject.CompareTag("CASTLEOFGLASSRANDOMSPAWNER"))
+                    {
+                        Attack.objectsClicked++;
+                        Debug.Log("Objects Clicked: " + Attack.objectsClicked + " / " + Attack.totalObjectsToClick);
+                        Destroy(clickedObject);
+
+                        if (Attack.objectsClicked >= Attack.totalObjectsToClick)
+                        {
+                            Attack.isPlayerFrozen = false;
+                            setSpeed(5);
+                            Attack.castleOfGlassEnabled = false;
+                            Attack.chokeEnabled = false;
+                            Attack.objectsClicked = 0;                      
+                        }
+                    }
+                }
+            }
+            else{
             s_playerWeapon.shoot(anim);
             updateUI();
+            }
     }
     //Reloads the gun if there is ammo avaliable
     void reload(InputAction.CallbackContext ctx)

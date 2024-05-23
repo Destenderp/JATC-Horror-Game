@@ -7,6 +7,13 @@ TagManager:
   - Garbage Can
   - TV
   - Door
+  - Blood
+  - Projectile
+  - ColorShift
+  - Boss
+  - CASTLEOFGLASS
+  - CASTLEOFGLASSRANDOMSPAWNER
+  - SquareOfLightning
   layers:
   - Default
   - TransparentFX
@@ -16,11 +23,11 @@ TagManager:
   - UI
   - Interactable
   - Player
-  - Projectile
+  - BossProjectile
   - Wall
   - Enemy
   - Camera
-  - 
+  - Blood
   - 
   - 
   - 
